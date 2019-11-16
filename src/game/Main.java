@@ -21,14 +21,23 @@ public class Main {
 //			} 
 //		}
 		
+//		Engine eng = new Engine();
+//		Plane plane = new Plane();
+//		AbstractShip ship1 = new BigShip(eng);
+//		plane.addShip(ship1, 0, 0);
+//		AbstractShip ship2 = new BigShip(eng);
+//		plane.addShip(ship2, 20, 125);
+//		plane.printPlane();
+//		plane.moveShip(ship2, 20, 124);
+//		plane.printPlane();
+		
+		
 		Plane plane = new Plane();
-		AbstractShip ship1 = new BigShip();
-		plane.addShip(ship1, 0, 0);
-		AbstractShip ship2 = new BigShip();
+		Engine eng = new Engine(plane);
+		AbstractShip ship1 = new BigShip(eng);
+		plane.addShip(ship1, 0, 120);
+		AbstractShip ship2 = new BigShip(eng);
 		plane.addShip(ship2, 20, 125);
-		plane.printPlane();
-		plane.moveShip(ship2, 20, 124);
-		plane.printPlane();
 		
 	}
 	

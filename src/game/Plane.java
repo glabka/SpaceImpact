@@ -1,5 +1,6 @@
 package game;
 
+import exceptions.ShipNotFoundException;
 import ships.AbstractShip;
 
 public class Plane {
@@ -7,12 +8,11 @@ public class Plane {
 	private int verMax = 27;
 	private int horMax = 130;
 	private AbstractShip[][] plane;
-	
-	
+
 	public Plane() {
 		plane = new AbstractShip[verMax][horMax];
 	}
-	
+
 	public void addShip(AbstractShip ship, int ver, int hor) {
 		char[][] shipsLook = ship.getLook();
 		int verCurr;
@@ -21,28 +21,86 @@ public class Plane {
 			for (int j = 0; j < shipsLook[i].length; j++) {
 				verCurr = ver + i;
 				horCurr = hor + j;
-				if(shipsLook[i][j] != ' ' && verCurr >= 0 &&verCurr < verMax && horCurr >= 0 && horCurr < horMax) {
+				if (shipsLook[i][j] != ' ' && verCurr >= 0 && verCurr < verMax && horCurr >= 0 && horCurr < horMax) {
 					plane[verCurr][horCurr] = ship;
 				}
 			}
 		}
+		if (!ship.isShipRunning()) {
+			ship.run();
+		}
 	}
-	
+
 	public void moveShip(AbstractShip ship, int ver, int hor) {
 		for (int i = 0; i < verMax; i++) {
 			for (int j = 0; j < horMax; j++) {
-				if(plane[i][j] == ship) {
+				if (plane[i][j] == ship) {
 					plane[i][j] = null;
 				}
 			}
 		}
+
 		addShip(ship, ver, hor);
+
+		// checking if ship is on plane - if not -> terminating the ship
+		if (!isShipOnPlane(ship)) {
+			ship.terminate();
+		}
 	}
-	
+
+	private boolean isShipOnPlane(AbstractShip ship) {
+		for (int i = 0; i < verMax; i++) {
+			for (int j = 0; j < horMax; j++) {
+				if (plane[i][j] == ship) {
+					return true;
+				}
+			}
+		}
+		return false;
+	}
+
+	public int getShipsVer(AbstractShip ship) {
+		boolean shipFound = false;
+		int mostLeftIndex = verMax;
+		for (int i = 0; i < verMax; i++) {
+			for (int j = 0; j < horMax; j++) {
+				if (plane[i][j] == ship) {
+					shipFound = true;
+					if (mostLeftIndex > i) {
+						mostLeftIndex = i;
+					}
+				}
+			}
+		}
+		if (!shipFound) {
+			throw new ShipNotFoundException("ship " + ship + " was not found.");
+		}
+		return mostLeftIndex;
+	}
+
+	public int getShipsHor(AbstractShip ship) {
+		boolean shipFound = false;
+		int mostTopIndex = horMax;
+		for (int i = 0; i < verMax; i++) {
+			for (int j = 0; j < horMax; j++) {
+				if (plane[i][j] == ship) {
+					shipFound = true;
+					if (mostTopIndex > j) {
+						mostTopIndex = j;
+					}
+				}
+			}
+		}
+		if (!shipFound) {
+			throw new ShipNotFoundException("ship " + ship + "was not found.");
+		}
+		return mostTopIndex;
+	}
+
 	public void printPlane() {
 		for (int i = 0; i < plane.length; i++) {
 			for (int j = 0; j < plane[i].length; j++) {
-				if(plane[i][j] != null && plane[i][j].getCurrentLives() > 0) {
+				if (plane[i][j] != null && plane[i][j].getCurrentLives() > 0) {
 					System.out.print("#");
 				} else {
 					System.out.print(" ");
@@ -51,5 +109,5 @@ public class Plane {
 			System.out.println();
 		}
 	}
-		
+
 }

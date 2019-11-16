@@ -1,10 +1,16 @@
 package ships;
 
+import game.Observer;
+
 public class BasicShip extends AbstractShip {
+
+	public BasicShip(Observer obs) {
+		super(obs);
+	}
 
 	private int maxLives = 1;
 	private int currLives = 1;
-	private double speed = 1;
+//	private double speed = 1;
 	private char[][] look = {{'<', '='}};
 	
 	
@@ -18,10 +24,10 @@ public class BasicShip extends AbstractShip {
 		return currLives;
 	}
 
-	@Override
-	public double getSpeed() {
-		return speed;
-	}
+//	@Override
+//	public double getSpeed() {
+//		return speed;
+//	}
 
 	@Override
 	public char[][] getLook() {
@@ -33,5 +39,19 @@ public class BasicShip extends AbstractShip {
 		// TODO Auto-generated method stub
 		return null;
 	}
+	
+    @Override
+    public void run() {
+    	running = true;
+        while (running) {
+            try {
+                Thread.sleep((long) 500);
+                obs.updateShipsPossition(this, 0, -1);                
+            } catch (InterruptedException e) {
+            	e.printStackTrace();
+                running = false;
+            }
+        }
+    }
 
 }

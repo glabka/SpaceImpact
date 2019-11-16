@@ -1,10 +1,16 @@
 package ships;
 
+import game.Observer;
+
 public class BigShip extends AbstractShip {
+
+	public BigShip(Observer obs) {
+		super(obs);
+	}
 
 	private int maxLives = 3;
 	private int currLives = 3;
-	private double speed = 1;
+//	private double speed = 1;
 	private char[][] look = {
 							{' ', ' ', '/','-', '-'},
 							{' ', '/', '#','#', '#'},
@@ -24,10 +30,10 @@ public class BigShip extends AbstractShip {
 		return currLives;
 	}
 
-	@Override
-	public double getSpeed() {
-		return speed;
-	}
+//	@Override
+//	public double getSpeed() {
+//		return speed;
+//	}
 
 	@Override
 	public char[][] getLook() {
@@ -40,4 +46,18 @@ public class BigShip extends AbstractShip {
 		return null;
 	}
 
+    @Override
+    public void run() {
+    	running = true;
+        while (running) {
+            try {
+                Thread.sleep((long) 500);
+                obs.updateShipsPossition(this, 0, -1);                
+            } catch (InterruptedException e) {
+            	e.printStackTrace();
+                running = false;
+            }
+        }
+    }
+	
 }
