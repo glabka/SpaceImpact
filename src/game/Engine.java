@@ -25,5 +25,11 @@ public class Engine implements Observer{
 		plane.moveShip(ship, ver + verShift, hor + horShift);
 		printGame();
 	}
+
+	@Override
+	public void updateShipDestruction(AbstractShip ship) {
+		// TODO Auto-generated method stub
+		
+	}
 	
 }

@@ -2,7 +2,7 @@ package ships;
 
 import game.Observer;
 
-public class BigShip extends AbstractShip {
+public class BigShip extends AbstractEnemyShip {
 
 	public BigShip(Observer obs) {
 		super(obs);
@@ -46,12 +46,18 @@ public class BigShip extends AbstractShip {
 		return null;
 	}
 
+	@Override
+	public void destroy() {
+		// TODO Auto-generated method stub
+		
+	}
+	
     @Override
     public void run() {
     	running = true;
         while (running) {
             try {
-                Thread.sleep((long) 500);
+                Thread.sleep((long) 100);
                 obs.updateShipsPossition(this, 0, -1);                
             } catch (InterruptedException e) {
             	e.printStackTrace();
@@ -59,5 +65,6 @@ public class BigShip extends AbstractShip {
             }
         }
     }
+
 	
 }

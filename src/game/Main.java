@@ -1,7 +1,9 @@
 package game;
 
+import ships.AbstractEnemyShip;
 import ships.AbstractShip;
 import ships.BigShip;
+import ships.PlayersShip;
 
 public class Main {
 
@@ -34,10 +36,13 @@ public class Main {
 		
 		Plane plane = new Plane();
 		Engine eng = new Engine(plane);
-		AbstractShip ship1 = new BigShip(eng);
-		plane.addShip(ship1, 0, 120);
-		AbstractShip ship2 = new BigShip(eng);
-		plane.addShip(ship2, 20, 125);
+		AbstractShip playersShip = new PlayersShip(eng);
+		plane.addShip(playersShip, 13, 0);
+//		AbstractEnemyShip ship1 = new BigShip(eng);
+//		plane.addShip(ship1, 0, 120);
+//		AbstractEnemyShip ship2 = new BigShip(eng);
+//		plane.addShip(ship2, 20, 125);
+		
 		
 	}
 	

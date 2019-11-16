@@ -2,7 +2,7 @@ package ships;
 
 import game.Observer;
 
-public class BasicShip extends AbstractShip {
+public class BasicShip extends AbstractEnemyShip {
 
 	public BasicShip(Observer obs) {
 		super(obs);
@@ -40,6 +40,12 @@ public class BasicShip extends AbstractShip {
 		return null;
 	}
 	
+	@Override
+	public void destroy() {
+		// TODO Auto-generated method stub
+		
+	}
+	
     @Override
     public void run() {
     	running = true;
@@ -53,5 +59,7 @@ public class BasicShip extends AbstractShip {
             }
         }
     }
+
+
 
 }

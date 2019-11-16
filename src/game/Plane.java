@@ -1,6 +1,7 @@
 package game;
 
 import exceptions.ShipNotFoundException;
+import ships.AbstractEnemyShip;
 import ships.AbstractShip;
 
 public class Plane {
@@ -22,13 +23,21 @@ public class Plane {
 				verCurr = ver + i;
 				horCurr = hor + j;
 				if (shipsLook[i][j] != ' ' && verCurr >= 0 && verCurr < verMax && horCurr >= 0 && horCurr < horMax) {
-					plane[verCurr][horCurr] = ship;
+					if(plane[verCurr][horCurr] == null) {
+						plane[verCurr][horCurr] = ship;
+					} else {
+						plane[verCurr][horCurr].destroy();
+					}
 				}
 			}
 		}
-		if (!ship.isShipRunning()) {
-			ship.run();
+		if(ship instanceof AbstractEnemyShip) {
+			AbstractEnemyShip enemyShip = (AbstractEnemyShip) ship;
+			if (!enemyShip.isShipRunning()) {
+				new Thread(enemyShip).start();
+			}
 		}
+
 	}
 
 	public void moveShip(AbstractShip ship, int ver, int hor) {
@@ -44,7 +53,10 @@ public class Plane {
 
 		// checking if ship is on plane - if not -> terminating the ship
 		if (!isShipOnPlane(ship)) {
-			ship.terminate();
+			if(ship instanceof AbstractEnemyShip) {
+				AbstractEnemyShip enemyShip = (AbstractEnemyShip) ship;
+				enemyShip.terminate();
+			}
 		}
 	}
 
@@ -97,7 +109,8 @@ public class Plane {
 		return mostTopIndex;
 	}
 
-	public void printPlane() {
+	public synchronized void printPlane() {
+		System.out.println("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n");
 		for (int i = 0; i < plane.length; i++) {
 			for (int j = 0; j < plane[i].length; j++) {
 				if (plane[i][j] != null && plane[i][j].getCurrentLives() > 0) {
@@ -108,6 +121,7 @@ public class Plane {
 			}
 			System.out.println();
 		}
+		System.out.println("....................................................................");
 	}
 
 }
